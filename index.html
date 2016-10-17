@@ -82,9 +82,9 @@ var movebg = function(s){
 		gr2.x = gr1.x+gr1.w;
 	}
 }
-var py = gr1.y+400;
+
 var punk = game.newAnimationObject({
-	x: 0, y: py,
+	x: 0, y: 400,
 	h: 150, w:150,
 	delay: 3,
 	animation: pjs.tiles.newAnimation("img/Punk_Run.png", 256, 256,8)
@@ -104,18 +104,22 @@ game.newLoop('game', function () {
 	punk.draw();
 	movebg(4);
    
-    if(pjs.touchControl.isPress() && punk.y == py){
+    if(pjs.touchControl.isDown() && punk.y>250){
         console.log(punk.y);
         
-        punk.moveTo(point(punk.x, -100), 100);
+       //	punk.moveTo(point(punk.x, punk.y-20),100);
+       	punk.y-=20;
+       	
         console.log(point(punk.x, punk.y));
         
 
     }
+    if(punk.y < 400){
+    	punk.y+= 5;
+    	log(punk.y);
+    }
 
-   	if(punk.y<py){
-   		punk.moveTo(point(punk.x, py),4);
-   	}
+   	
 
 });
 
