@@ -82,16 +82,16 @@ var movebg = function(s){
 		gr2.x = gr1.x+gr1.w;
 	}
 }
-
+var sp = height - (height/4);
 var punk = game.newAnimationObject({
-	x: 0, y: 400,
-	h: 150, w:150,
+	x: 0, y: sp,
+	h: height/6, w:height/6,
 	delay: 3,
 	animation: pjs.tiles.newAnimation("img/Punk_Run.png", 256, 256,8)
 });
 
 
-
+var hh =height/2;
 
 game.newLoop('game', function () {
 	game.fill('#D9D9D9');
@@ -103,9 +103,11 @@ game.newLoop('game', function () {
 	
 	punk.draw();
 	movebg(4);
-   
-    if(pjs.touchControl.isDown() && punk.y>250){
-        console.log(punk.y);
+    log("gr1y" + gr1.y);
+
+    if(pjs.touchControl.isDown() && punk.y>hh){
+    	
+        //console.log(punk.y);
         
        //	punk.moveTo(point(punk.x, punk.y-20),100);
        	punk.y-=20;
@@ -114,7 +116,7 @@ game.newLoop('game', function () {
         
 
     }
-    if(punk.y < 400){
+    if(punk.y < sp){
     	punk.y+= 5;
     	log(punk.y);
     }
