@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width,user-scalable=no"/>
+	<title>Минимальный игровой код PointJS</title>
+</head>
+<body>
+<script type="text/javascript" src="js/point.js"></script>
+
+
+<script type="text/javascript">
+
+var pjs = new PointJS('2d', 800, 400);
+pjs.system.initFullPage();
+
+var vector = pjs.vector;
+var log = pjs.system.log;
+var game = pjs.game;
+var point = vector.point;
+var size = vector.size;
+var camera = pjs.camera;
+var brush = pjs.brush;
+var OOP = pjs.OOP;
+var math = pjs.math;
+
+var height = game.getWH().h;
+var width = game.getWH().w;
+//var key = pjs.keyControl;
+//key.initKeyControl();
+
+//var mouse = pjs.mouseControl;
+//mouse.initMouseControl();
+
+var touch = pjs.touchControl;
+touch.initTouchControl();
+
+var bg1 = game.newImageObject({
+    x:0, y:0,
+    file: "img/highwayz.jpg",
+    h: height,
+    onload: function(){
+    	bg2.x = bg1.x+bg1.w;
+    }
+});
+var bg2 = game.newImageObject({
+    x:0, y:0,
+    file: "img/highwayz2.jpg",
+    h: height
+});
+var gr1 = game.newImageObject({
+    x:0, y:0,
+    file: "img/highwayz_floor_.jpg",
+    w: width,
+    onload: function(){
+    	gr2.y=gr1.y = height - gr1.h;
+    	gr2.x= gr1.x+gr1.w;
+    },
+   h: height/6 
+});
+var gr2 = game.newImageObject({
+    x:0, y:0,
+    file: "img/highwayz_floor_.jpg",
+    w: width, h: height/6
+    
+});
+var movebg = function(s){
+	bg1.move(point(-s/10,0));
+	bg2.move(point(-s/10,0));
+	gr1.move(point(-s,0));
+	gr2.move(point(-s,0));
+	if(bg1.x+bg1.w < 0){
+		bg1.x = bg2.x+bg2.w;
+	}
+	if(bg2.x+bg2.w < 0){
+		bg2.x = bg1.x+bg1.w;
+	}
+	if(gr1.x+gr1.w < 0){
+		gr1.x = gr2.x+gr2.w;
+	}
+	if(gr2.x+gr2.w < 0){
+		gr2.x = gr1.x+gr1.w;
+	}
+}
+var py = gr1.y+400;
+var punk = game.newAnimationObject({
+	x: 0, y: py,
+	h: 150, w:150,
+	delay: 3,
+	animation: pjs.tiles.newAnimation("img/Punk_Run.png", 256, 256,8)
+});
+
+
+
+
+game.newLoop('game', function () {
+	game.fill('#D9D9D9');
+
+	bg1.draw();
+	bg2.draw();
+	gr1.draw();
+	gr2.draw();
+	
+	punk.draw();
+	movebg(4);
+   
+    if(pjs.touchControl.isPress() && punk.y == py){
+        console.log(punk.y);
+        
+        punk.moveTo(point(punk.x, -100), 100);
+        console.log(point(punk.x, punk.y));
+        
+
+    }
+
+   	if(punk.y<py){
+   		punk.moveTo(point(punk.x, py),4);
+   	}
+
+});
+
+game.startLoop('game');
+
+</script>
+
+</body>
+</html>
